@@ -92,8 +92,8 @@ int main(int argc, char **argv)
     imu->setAccelEnable(true);
     imu->setCompassEnable(true);
 
-    //enable debug mode
-    imu->setDebugEnable(true);
+    //enable debug mode?
+    imu->setDebugEnable(false);
 
     ros::Rate loop_rate(update_rate);
     while (ros::ok())
