@@ -112,9 +112,9 @@ int main(int argc, char **argv)
             imu_msg.angular_velocity.x = imu_data.gyro.x();
             imu_msg.angular_velocity.y = imu_data.gyro.y();
             imu_msg.angular_velocity.z = imu_data.gyro.z();
-            imu_msg.linear_acceleration.x = imu_data.accel.x();
-            imu_msg.linear_acceleration.y = imu_data.accel.y();
-            imu_msg.linear_acceleration.z = imu_data.accel.z();
+            imu_msg.linear_acceleration.x = imu_data.accel.x()*9.80665;
+            imu_msg.linear_acceleration.y = imu_data.accel.y()*9.80665;
+            imu_msg.linear_acceleration.z = imu_data.accel.z()*9.80665;
 
 	    //covariance: found by enabling debug mode above and changing fusion mode to kalman
 	    //Cov(0): 0.000083 0.000000 0.000000 0.000000
@@ -124,6 +124,14 @@ int main(int argc, char **argv)
 	    imu_msg.orientation_covariance[0] = 0.000083;
 	    imu_msg.orientation_covariance[4] = 0.000083;
 	    imu_msg.orientation_covariance[8] = 0.000083;
+
+	    imu_msg.linear_acceleration_covariance[0] = 0.000083;
+	    imu_msg.linear_acceleration_covariance[4] = 0.000083;
+	    imu_msg.linear_acceleration_covariance[8] = 0.000083;
+
+	    imu_msg.angular_velocity_covariance[0] = 0.000083;
+	    imu_msg.angular_velocity_covariance[4] = 0.000083;
+	    imu_msg.angular_velocity_covariance[8] = 0.000083;
 
 
             imu_pub.publish(imu_msg);
