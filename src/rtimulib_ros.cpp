@@ -92,6 +92,9 @@ int main(int argc, char **argv)
     imu->setAccelEnable(true);
     imu->setCompassEnable(true);
 
+    //enable debug mode
+    imu->setDebugEnable(true);
+
     ros::Rate loop_rate(update_rate);
     while (ros::ok())
     {
@@ -112,6 +115,16 @@ int main(int argc, char **argv)
             imu_msg.linear_acceleration.x = imu_data.accel.x();
             imu_msg.linear_acceleration.y = imu_data.accel.y();
             imu_msg.linear_acceleration.z = imu_data.accel.z();
+
+	    //covariance: found by enabling debug mode above and changing fusion mode to kalman
+	    //Cov(0): 0.000083 0.000000 0.000000 0.000000
+	    //Cov(1): 0.000000 0.000083 0.000000 0.000000
+	    //Cov(2): 0.000000 0.000000 0.000083 0.000000
+	    //Cov(3): 0.000000 0.000000 0.000000 0.000083
+	    imu_msg.orientation_covariance[0] = 0.000083;
+	    imu_msg.orientation_covariance[4] = 0.000083;
+	    imu_msg.orientation_covariance[8] = 0.000083;
+
 
             imu_pub.publish(imu_msg);
         }
